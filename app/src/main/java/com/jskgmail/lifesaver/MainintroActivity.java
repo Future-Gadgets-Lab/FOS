@@ -37,7 +37,7 @@ setFadeAnimation();
 
         // Instead of fragments, you can also use our default slide
         // Just set a title, description, background and image. AppIntro will do the rest.
-        addSlide(AppIntroFragment.newInstance("WELCOME !", "The 24/7 bodyguard that protects and saves you from any mishap ", R.drawable.shield, Color.parseColor("#10a7ff")));
+        addSlide(AppIntroFragment.newInstance("WELCOME !", "The 24/7 bodyguard that protects and saves you from any fire ", R.drawable.shield, Color.parseColor("#10a7ff")));
         addSlide(AppIntroFragment.newInstance("Your location", "Find nearest hospitals,blood banks and police stations to your location", R.drawable.hospii,Color.parseColor("#10a7ff")));
         addSlide(AppIntroFragment.newInstance("Your contacts", "Manages your emergency contacts and sends alert automatically in case of any problem detected", R.drawable.third, Color.parseColor("#10a7ff")));
 
@@ -45,7 +45,7 @@ setFadeAnimation();
         // Override bar/separator color.
 
 
-        addSlide(AppIntroFragment.newInstance("Your complaints", "The blockchain based complaint system for problem registered by user", R.drawable.fourt, Color.parseColor("#10a7ff")));
+        addSlide(AppIntroFragment.newInstance("We Train you", "We train you how to react in case of fires", R.drawable.firstaid, Color.parseColor("#10a7ff")));
 
         // OPTIONAL METHODS        // Override bar/separator color.
 

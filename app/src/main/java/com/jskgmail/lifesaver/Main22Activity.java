@@ -17,8 +17,11 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.nightonke.boommenu.BoomButtons.ButtonPlaceEnum;
 import com.nightonke.boommenu.BoomButtons.OnBMClickListener;
 import com.nightonke.boommenu.BoomButtons.TextOutsideCircleButton;
@@ -73,8 +76,8 @@ public class Main22Activity extends AppCompatActivity {
                 criteria.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                     @Override
                     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                        progress=progress-progress%5;
-                        critsh.setText(progress+"%");
+                    //    progress=progress-progress%1;
+                        critsh.setText(progress+" ");
                         severity[0] = String.valueOf(progress);
                         //Log.e("thecriteria",crit);
                         //recrit=crit;
@@ -100,8 +103,8 @@ public class Main22Activity extends AppCompatActivity {
                 criteria1.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                     @Override
                     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                        progress=progress-progress%5;
-                        critsh1.setText(progress+"%");
+                        progress=progress-progress%30;
+                        critsh1.setText(progress+" degrees");
                         spread[0] = String.valueOf(progress);
                         //Log.e("thecriteria",crit);
                         //recrit=crit;
@@ -121,7 +124,6 @@ public class Main22Activity extends AppCompatActivity {
                 });
 
 
-
                 alert.setPositiveButton("GET HELP", new DialogInterface.OnClickListener() {
 
 
@@ -129,17 +131,119 @@ public class Main22Activity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
 
 
-                        DatabaseReference myRef = database.getReference("user");
+                        final DatabaseReference myRef = database.getReference("user");
 
                         DatabaseReference myRef1 = myRef.child(androidId);
+                        DatabaseReference myRef2 = myRef1.child(androidId);
 
-                        myRef.setValue("Hello!");
+                        DatabaseReference myRef11 = myRef2.child("lat");
+
+                        myRef11.setValue(MainActivity.lat);
+                        DatabaseReference myRef12 = myRef2.child("long");
+
+                        myRef12.setValue(MainActivity.longi);
+                        DatabaseReference myRef13 = myRef2.child("severity");
+
+                        myRef13.setValue(severity[0]);
+                        DatabaseReference myRef14 = myRef2.child("spread");
+
+                        myRef14.setValue(spread[0]);
+
+
+                       // myRef.setValue("Hello!");
                         Toast.makeText(getApplicationContext(), androidId, Toast.LENGTH_SHORT).show();
 
 
+                        final int[] ch = {1};
 
 
-                        
+// Read from the database
+                        myRef.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                // This method is called once with the initial value and again
+                                // whenever data at this location is updated.
+                                String spot = dataSnapshot.getValue(String.class);
+                                double lat = Double.parseDouble(null);
+                                double longi,distbtw2latlong;
+                                for (DataSnapshot dataSnapshot1:dataSnapshot.getChildren())
+                                {
+                                    if (dataSnapshot1.getKey().equals("lat"))
+                                    {
+                                        lat= Double.parseDouble(String.valueOf(dataSnapshot1.getValue()));
+                                    }
+                                    else if (dataSnapshot1.getKey().equals("long"))
+                                    { longi= Double.parseDouble(String.valueOf(dataSnapshot1.getValue()));
+                                      distbtw2latlong=  getDistanceFromLatLonInKm(MainActivity.lat,MainActivity.longi,lat,longi);
+                                      Toast.makeText(getApplicationContext(),distbtw2latlong+"",Toast.LENGTH_LONG).show();
+                                     /* if (distbtw2latlong<=1)
+                                      {
+
+                                          DatabaseReference myRef1 = myRef.child(spot);
+                                          DatabaseReference myRef2 = myRef1.child(androidId);
+
+                                          DatabaseReference myRef11 = myRef2.child("lat");
+
+                                          myRef11.setValue(MainActivity.lat);
+                                          DatabaseReference myRef12 = myRef2.child("long");
+
+                                          myRef12.setValue(MainActivity.longi);
+                                          DatabaseReference myRef13 = myRef2.child("severity");
+
+                                          myRef13.setValue(severity[0]);
+                                          DatabaseReference myRef14 = myRef2.child("spread");
+
+                                          myRef14.setValue(spread[0]);
+
+
+                                          ch[0] =0;
+
+                                      }*/
+                                    }
+
+
+                                }
+
+
+
+                                Log.d(TAG, "Value of spot: " + spot);
+
+/*if (ch[0] ==1)
+{
+
+
+    DatabaseReference myRef1 = myRef.child(androidId);
+    DatabaseReference myRef2 = myRef1.child(androidId);
+
+    DatabaseReference myRef11 = myRef2.child("lat");
+
+    myRef11.setValue(MainActivity.lat);
+    DatabaseReference myRef12 = myRef2.child("long");
+
+    myRef12.setValue(MainActivity.longi);
+    DatabaseReference myRef13 = myRef2.child("severity");
+
+    myRef13.setValue(severity[0]);
+    DatabaseReference myRef14 = myRef2.child("spread");
+
+    myRef14.setValue(spread[0]);
+
+
+}
+*/
+
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError error) {
+                                // Failed to read value
+                                Log.w(TAG, "Failed to read value.", error.toException());
+                            }
+                        });
+
+
+
+
 
 
 
@@ -223,4 +327,35 @@ public class Main22Activity extends AppCompatActivity {
         homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(homeIntent);
     }
+
+
+
+
+
+    double getDistanceFromLatLonInKm(double lat1,double lon1,double lat2,double lon2) {
+        double R = 6371; // Radius of the earth in km
+        double dLat = deg2rad(lat2-lat1);  // deg2rad below
+        double dLon = deg2rad(lon2-lon1);
+        double a =
+                Math.sin(dLat/2) * Math.sin(dLat/2) +
+                        Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+                                Math.sin(dLon/2) * Math.sin(dLon/2)
+                ;
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        double d = R * c; // Distance in km
+        return d;
+    }
+
+    double deg2rad(double deg) {
+        return deg * (Math.PI/180);
+    }
+
+
+
+
+
+
+
+
+
 }

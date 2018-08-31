@@ -20,7 +20,7 @@
             android:layout_below="@+id/seekBar"
             android:paddingLeft="3dp"
             android:paddingRight="3dp"
-            android:text="0%" />
+            android:text="0" />
 
         <TextView
             android:id="@+id/textView3"
@@ -48,9 +48,9 @@
             android:layout_toRightOf="@+id/textView3"
             android:layout_weight="0.66"
             android:background="@color/white"
-            android:max="100"
+            android:max="5"
             android:paddingTop="5dp"
-            android:progress="75"
+            android:progress="2"
             android:progressBackgroundTint="@color/colorAccent"
             android:thumb="@drawable/ic_location_on_black_24dp" />
     </RelativeLayout>
@@ -72,10 +72,10 @@
             android:layout_below="@+id/seekBar1"
             android:paddingLeft="3dp"
             android:paddingRight="3dp"
-            android:text="0%" />
+            android:text="0 degrees" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/textView33"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
@@ -92,17 +92,17 @@
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/textView3"
+            android:layout_alignBottom="@+id/textView33"
 
             android:layout_marginLeft="7dp"
             android:layout_marginStart="7dp"
-            android:layout_toEndOf="@+id/textView3"
-            android:layout_toRightOf="@+id/textView3"
+            android:layout_toEndOf="@+id/textView33"
+            android:layout_toRightOf="@+id/textView33"
             android:layout_weight="0.66"
             android:background="@color/white"
-            android:max="100"
+            android:max="180"
             android:paddingTop="5dp"
-            android:progress="75"
+            android:progress="30"
             android:progressBackgroundTint="@color/colorAccent"
             android:thumb="@drawable/ic_location_on_black_24dp" />
     </RelativeLayout>
