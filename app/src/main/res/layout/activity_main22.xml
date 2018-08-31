@@ -5,6 +5,7 @@
     android:id="@+id/rl"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorredmenu"
     tools:context=".Main22Activity">
 
     <ImageView
