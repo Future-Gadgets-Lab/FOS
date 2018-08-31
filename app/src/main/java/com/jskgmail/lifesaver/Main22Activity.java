@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -64,15 +65,146 @@ public class Main22Activity extends AppCompatActivity {
 
              SeekBar   criteria = (SeekBar) alertLayout.findViewById(R.id.seekBar);
                 SeekBar   criteria1 = (SeekBar) alertLayout.findViewById(R.id.seekBar1);
-
                 final String androidId = Settings.Secure.getString(getContentResolver(),
                         Settings.Secure.ANDROID_ID);
 
-              //  criteria.setProgress(Integer.parseInt(recrit));
+                //  criteria.setProgress(Integer.parseInt(recrit));
                 final TextView critsh=(TextView)alertLayout.findViewById(R.id.textView38);
                 //critsh.setText(recrit+"%");
                 final String[] spread = new String[1];
                 final String[] severity = new String[1];
+
+                Button soss=alertLayout.findViewById(R.id.soss);
+                final AlertDialog dialog = alert.create();
+
+                soss.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+
+
+                        final DatabaseReference myRef = database.getReference("user");
+
+                        DatabaseReference myRef1 = myRef.child(androidId);
+                        DatabaseReference myRef2 = myRef1.child(androidId);
+
+                        DatabaseReference myRef11 = myRef2.child("lat");
+
+                        myRef11.setValue(MainActivity.lat);
+                        DatabaseReference myRef12 = myRef2.child("long");
+
+                        myRef12.setValue(MainActivity.longi);
+                        DatabaseReference myRef13 = myRef2.child("severity");
+
+                        myRef13.setValue(severity[0]);
+                        DatabaseReference myRef14 = myRef2.child("spread");
+
+                        myRef14.setValue(spread[0]);
+
+
+                        // myRef.setValue("Hello!");
+                        Toast.makeText(getApplicationContext(), androidId, Toast.LENGTH_SHORT).show();
+
+
+                        final int[] ch = {1};
+
+
+// Read from the database
+                        myRef.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                // This method is called once with the initial value and again
+                                // whenever data at this location is updated.
+                                String spot = dataSnapshot.getValue(String.class);
+                                double lat = Double.parseDouble(null);
+                                double longi,distbtw2latlong;
+                                for (DataSnapshot dataSnapshot1:dataSnapshot.getChildren())
+                                {
+                                    if (dataSnapshot1.getKey().equals("lat"))
+                                    {
+                                        lat= Double.parseDouble(String.valueOf(dataSnapshot1.getValue()));
+                                    }
+                                    else if (dataSnapshot1.getKey().equals("long"))
+                                    { longi= Double.parseDouble(String.valueOf(dataSnapshot1.getValue()));
+                                        distbtw2latlong=  getDistanceFromLatLonInKm(MainActivity.lat,MainActivity.longi,lat,longi);
+                                        Toast.makeText(getApplicationContext(),distbtw2latlong+"",Toast.LENGTH_LONG).show();
+                                     /* if (distbtw2latlong<=1)
+                                      {
+
+                                          DatabaseReference myRef1 = myRef.child(spot);
+                                          DatabaseReference myRef2 = myRef1.child(androidId);
+
+                                          DatabaseReference myRef11 = myRef2.child("lat");
+
+                                          myRef11.setValue(MainActivity.lat);
+                                          DatabaseReference myRef12 = myRef2.child("long");
+
+                                          myRef12.setValue(MainActivity.longi);
+                                          DatabaseReference myRef13 = myRef2.child("severity");
+
+                                          myRef13.setValue(severity[0]);
+                                          DatabaseReference myRef14 = myRef2.child("spread");
+
+                                          myRef14.setValue(spread[0]);
+
+
+                                          ch[0] =0;
+
+                                      }*/
+                                    }
+
+dialog.cancel();
+                                }
+
+
+
+                                Log.d(TAG, "Value of spot: " + spot);
+
+/*if (ch[0] ==1)
+{
+
+
+    DatabaseReference myRef1 = myRef.child(androidId);
+    DatabaseReference myRef2 = myRef1.child(androidId);
+
+    DatabaseReference myRef11 = myRef2.child("lat");
+
+    myRef11.setValue(MainActivity.lat);
+    DatabaseReference myRef12 = myRef2.child("long");
+
+    myRef12.setValue(MainActivity.longi);
+    DatabaseReference myRef13 = myRef2.child("severity");
+
+    myRef13.setValue(severity[0]);
+    DatabaseReference myRef14 = myRef2.child("spread");
+
+    myRef14.setValue(spread[0]);
+
+
+}
+*/
+
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError error) {
+                                // Failed to read value
+                                Log.w(TAG, "Failed to read value.", error.toException());
+                            }
+                        });
+
+
+
+
+
+
+
+
+
+
+
+            }
+                });
                 criteria.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                     @Override
                     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -249,7 +381,6 @@ public class Main22Activity extends AppCompatActivity {
 
                     }});
 
-                        AlertDialog dialog = alert.create();
                         dialog.show();
 
 
