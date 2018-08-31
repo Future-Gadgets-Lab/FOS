@@ -8,7 +8,6 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -59,6 +58,7 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.firebase.storage.StorageReference;
 import com.jskgmail.lifesaver.beaconreference.BeaconTransmitterActivity;
+import com.jskgmail.lifesaver.beaconreference.MonitoringActivity;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -225,7 +225,7 @@ Toast.makeText(getApplicationContext(),"LAt"+lat+longi,Toast.LENGTH_SHORT).show(
         SharedPreferences prefs1 = getSharedPreferences("app",MODE_PRIVATE);
         String firsttime = prefs1.getString("intro1", "1");
         if (firsttime.equals("1"))
-        appstarter1();
+     //   appstarter1();
 
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -721,39 +721,6 @@ if (flood.equals("1"))
     public void onSensorChanged(SensorEvent sensorEvent) {
         Sensor mySensor = sensorEvent.sensor;
 
-        if (mySensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-            float x = sensorEvent.values[0];
-            float y = sensorEvent.values[1];
-            float z = sensorEvent.values[2];
-
-            long curTime = System.currentTimeMillis();
-
-            long diffTime = (curTime - lastupdate);
-
-            if ((curTime - lastupdate) > 100) {
-
-
-
-                float speed = Math.abs(x + y + z - lastx - lasty - lastz)/ diffTime * 10000;
-                Log.v("speeed",speed+"" );
-                if (speed > 2000) {
-//TODO alert
-                    MainActivity.flood = "1";
-                    SharedPreferences.Editor editor = getSharedPreferences("flood", MODE_PRIVATE).edit();
-                    editor.putString("flood", "1");
-                    editor.apply();
-                }
-
-                lastx = x;
-                lasty = y;
-                lastz = z;
-
-
-
-
-                lastupdate = curTime;
-            }
-        }
 
         if(sensorEvent.sensor.getType() == Sensor.TYPE_AMBIENT_TEMPERATURE){
             Log.e("temp",sensorEvent.values[0]+"");
@@ -886,30 +853,7 @@ if (flood.equals("1"))
                     Log.e("longi",elv1);
 
                     String latlongnew=elv+","+elv1;
-                    ApiInterface apiService =
-                            ApiClient.getClient().create(ApiInterface.class);
-//TODO
-                    Call call = apiService.getall(latlongnew,API_KEY);
-                    call.enqueue(new Callback() {
-                        @Override
-                        public void onResponse(Call call, Response response) {
-                            Log.e(TAG,"success");
-                            Log.e(TAG,  response.raw().request().url().toString());
-                            String url=response.raw().request().url().toString();
-                            FriendsProcessor mytask = new FriendsProcessor();
-                            mytask.execute(url);
 
-
-
-                        }
-
-                        @Override
-                        public void onFailure(Call call, Throwable t) {
-                            Log.e(TAG,"failureee");
-                        }
-
-
-                    });
 
 
 
@@ -986,30 +930,6 @@ if (flood.equals("1"))
             return;
         }
         Log.e(TAG, "whyy");
-
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-//TODO
-        Call call = apiService.getall(latlong, API_KEY);
-        call.enqueue(new Callback() {
-            @Override
-            public void onResponse(Call call, Response response) {
-                Log.e(TAG, "success");
-                Log.e(TAG, response.raw().request().url().toString());
-                String url = response.raw().request().url().toString();
-                FriendsProcessor mytask = new FriendsProcessor();
-                mytask.execute(url);
-
-
-            }
-
-            @Override
-            public void onFailure(Call call, Throwable t) {
-                Log.e(TAG, "failureee");
-            }
-
-
-        });
-
 
         if (API_KEY1.isEmpty()) {
             Toast.makeText(getApplicationContext(), "empty", Toast.LENGTH_LONG).show();
@@ -2062,21 +1982,10 @@ if (flood.equals("1"))
 
     public static class ApiClient {
 
-        public static final String BASE_URL ="https://maps.googleapis.com/maps/api/elevation/";
         public static final String BASE_URL1 ="https://roads.googleapis.com/v1/";
         private static Retrofit retrofit = null;
         private static Retrofit retrofit1 = null;
 
-
-        public static Retrofit getClient() {
-            if (retrofit==null) {
-                retrofit = new Retrofit.Builder()
-                        .baseUrl(BASE_URL)
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .build();
-            }
-            return retrofit;
-        }
 
 
 
@@ -2384,7 +2293,17 @@ if (flood.equals("1"))
             Intent i = new Intent(MainActivity.this, MainsettingActivity.class);
             startActivity(i);
         }
+       else if (id == R.id.firee) {
 
+           Intent i = new Intent(MainActivity.this, MapsActivity.class);
+           startActivity(i);
+       }
+
+          else if (id == R.id.beacon) {
+
+            Intent i = new Intent(MainActivity.this, MonitoringActivity.class);
+            startActivity(i);
+        }
 
         else if (id==R.id.blueh)
         {
@@ -3020,8 +2939,8 @@ void emergencycontact()
     super.onResume();
 
     NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-    SharedPreferences prefs = getSharedPreferences("acckeys",MODE_PRIVATE);
-    String bal = prefs.getString("balance", "N.A.");
+//    SharedPreferences prefs = getSharedPreferences("acckeys",MODE_PRIVATE);
+ //   String bal = prefs.getString("balance", "N.A.");
 
 
     navigationView.setNavigationItemSelectedListener(this);
@@ -3033,9 +2952,8 @@ void appstarter1()
 {
     final TapTargetSequence sequence = new TapTargetSequence(this)
             .targets(
-                    TapTarget.forView(findViewById(R.id.bmb), "Emergency button","For calling Fire Brigade instantly") .transparentTarget(true) .textTypeface(Typeface.SANS_SERIF)  // Specify a typeface for the text
-                            .drawShadow(true) .outerCircleAlpha(0.96f)         ,
-                    TapTarget.forView(findViewById(R.id.ps), "Nearest to you","For finding nearest emergency services") .transparentTarget(true).outerCircleAlpha(0.96f)
+                 //   TapTarget.forView(findViewById(R.id.bmb), "Emergency button","For calling Fire Brigade instantly") .transparentTarget(true) .textTypeface(Typeface.SANS_SERIF)  // Specify a typeface for the text.drawShadow(true) .outerCircleAlpha(0.96f)         ,
+                   // TapTarget.forView(findViewById(R.id.ps), "Nearest to you","For finding nearest emergency services") .transparentTarget(true).outerCircleAlpha(0.96f)
 
             )
 

@@ -79,8 +79,6 @@ private RotateLoading rotateLoading;
         mEmailField = (EditText) findViewById(R.id.field_email);
         mPasswordField = (EditText) findViewById(R.id.field_password);
 
-        pubkey=findViewById(R.id.publickey);
-        prikey=findViewById(R.id.privatekey);
 
         Button skip=findViewById(R.id.button4);
         skip.setOnClickListener(new View.OnClickListener() {

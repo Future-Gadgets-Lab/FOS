@@ -3,13 +3,15 @@ package com.jskgmail.lifesaver;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.nightonke.boommenu.BoomButtons.ButtonPlaceEnum;
 import com.nightonke.boommenu.BoomButtons.OnBMClickListener;
@@ -17,6 +19,8 @@ import com.nightonke.boommenu.BoomButtons.TextOutsideCircleButton;
 import com.nightonke.boommenu.BoomMenuButton;
 import com.nightonke.boommenu.ButtonEnum;
 import com.nightonke.boommenu.Piece.PiecePlaceEnum;
+
+import ru.dimorinny.floatingtextbutton.FloatingTextButton;
 
 public class Main22Activity extends AppCompatActivity {
     private BoomMenuButton bmb;
@@ -33,7 +37,38 @@ public class Main22Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Snackbar.make(rl,"Fire Brigades are reaching",Snackbar.LENGTH_LONG).show();
+
+
+                LayoutInflater inflater = getLayoutInflater();
+                View alertLayout = inflater.inflate(R.layout.layoutseverity, null);
+
+                AlertDialog.Builder alert = new AlertDialog.Builder(Main22Activity.this);
+
+                // this is set the view from XML inside AlertDialog
+                alert.setView(alertLayout);
+                // disallow cancel of AlertDialog on click of back button and outside touch
+                alert.setTitle("Fire Severity ");
+                alert.setIcon(R.drawable.ic_contacts_black_24dp);
+                 alertLayout.findViewById(R.id.listname);
+                FloatingTextButton fab11=alertLayout.findViewById(R.id.floatingActionButton);
+                final TextView textView=alertLayout.findViewById(R.id.text);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              //  Snackbar.make(rl,"Fire Brigades are reaching",Snackbar.LENGTH_LONG).show();
 
             }
         });

@@ -4,17 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorred"
+    android:background="#fe0202"
     tools:context="com.jskgmail.lifesaver.MainsplashActivity">
 
     <ImageView
         android:id="@+id/imageView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_alignParentStart="true"
         android:background="@color/colorred"
         android:fitsSystemWindows="false"
-        app:srcCompat="@drawable/capture" />
+        app:srcCompat="@drawable/main" />
 
     <ProgressBar
         android:id="@+id/progressBar4"
@@ -23,6 +23,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="187dp"
+        android:layout_marginBottom="87dp"
         android:indeterminateTint="@color/cardview_light_background" />
 </RelativeLayout>

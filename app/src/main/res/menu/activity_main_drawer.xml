@@ -2,12 +2,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single">
-
                 <item
                    android:id="@+id/Emergencycontacts"
                    android:icon="@drawable/ic_contacts_black_24dp"
                    android:title="Emergency Contacts" />
+        <item
+            android:id="@+id/vr"
+            android:icon="@drawable/ic_center_focus_weak_black_24dp"
+            android:title="VR training" />
 
+
+        <item
+            android:id="@+id/firee"
+            android:icon="@drawable/ic_live_tv_black_24dp"
+            android:title="Live Status" />
 
     </group>
 
