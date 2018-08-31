@@ -153,16 +153,15 @@ public class Main22Activity extends AppCompatActivity {
                                       }*/
                                     }
 
-dialog.cancel();
                                 }
 
+                                dialog.cancel();
 
 
                                 Log.d(TAG, "Value of spot: " + spot);
 
 /*if (ch[0] ==1)
 {
-
 
     DatabaseReference myRef1 = myRef.child(androidId);
     DatabaseReference myRef2 = myRef1.child(androidId);

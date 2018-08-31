@@ -19,6 +19,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.victor.loading.rotate.RotateLoading;
 
+import org.json.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -115,6 +121,54 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Log.w(TAG, "Failed to read value.", error.toException());
             }
         });
+
+
+        Object obj = null;
+        try {
+            obj = new JSONParser().parse(new FileReader("JSONExample.json"));
+
+
+
+
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        // typecasting obj to JSONObject
+        JSONObject jo = (JSONObject) obj;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
