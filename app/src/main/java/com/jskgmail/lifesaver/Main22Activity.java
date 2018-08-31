@@ -27,6 +27,7 @@ import com.nightonke.boommenu.ButtonEnum;
 import com.nightonke.boommenu.Piece.PiecePlaceEnum;
 
 public class Main22Activity extends AppCompatActivity {
+    private static final String TAG = "sssssssss";
     private BoomMenuButton bmb;
 
     @Override
@@ -121,65 +122,31 @@ public class Main22Activity extends AppCompatActivity {
 
 
 
-                alert.setPositiveButton("Set", new DialogInterface.OnClickListener() {
+                alert.setPositiveButton("GET HELP", new DialogInterface.OnClickListener() {
 
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
 
+                        DatabaseReference myRef = database.getReference("user");
 
-                        DatabaseReference myRef = database.getReference("user1");
+                        DatabaseReference myRef1 = myRef.child(androidId);
 
-                        myRef.setValue("Hello, World!");
-                        Toast.makeText(getApplicationContext(),androidId,Toast.LENGTH_SHORT).show();
-
-
-
-                        /*
-                        myRef.addValueEventListener(new ValueEventListener() {
-    @Override
-    public void onDataChange(DataSnapshot dataSnapshot) {
-        // This method is called once with the initial value and again
-        // whenever data at this location is updated.
-        String value = dataSnapshot.getValue(String.class);
-        Log.d(TAG, "Value is: " + value);
-    }
-
-    @Override
-    public void onCancelled(DatabaseError error) {
-        // Failed to read value
-        Log.w(TAG, "Failed to read value.", error.toException());
-    }
-});
-                         */
+                        myRef.setValue("Hello!");
+                        Toast.makeText(getApplicationContext(), androidId, Toast.LENGTH_SHORT).show();
 
 
 
 
+                        
 
 
 
+                    }});
 
-
-
-
-
-                    }
-                });
-
-
-
-
-
-
-
-
-                AlertDialog dialog = alert.create();
-                dialog.show();
-
-
-
+                        AlertDialog dialog = alert.create();
+                        dialog.show();
 
 
 
